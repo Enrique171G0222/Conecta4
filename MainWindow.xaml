@@ -1,0 +1,81 @@
+﻿<Window x:Class="Conecta4.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Conecta4"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="600">
+    <Window.Style>
+        <Style>
+            <Setter Property="Window.Visibility" Value="Visible"></Setter>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding MainWindowVisible}" Value="False">
+                    <Setter Property="Window.Visibility" Value="Hidden"></Setter>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Style>
+
+    <Window.DataContext>
+        <local:Juego></local:Juego>
+    </Window.DataContext>
+
+    <StackPanel>
+        <StackPanel.Background>
+            <ImageBrush ImageSource="/Imagenes/stripes-background.jpg"></ImageBrush>
+        </StackPanel.Background>
+        <Image Height="80" Source="Imagenes/LogoConecta4.jpeg"></Image>
+        <TextBlock FontSize="20" Margin="5,0,0,10">Inserte un nombre</TextBlock>
+        <TextBox Text="{Binding Jugador1}" FontSize="20" Width="350" Margin="5,0,0,10" HorizontalAlignment="Left"></TextBox>
+        <Border Background="White" CornerRadius="15">
+            <GroupBox Margin="5" FontSize="20" Header="¿Que desea hacer ahora?">
+                <StackPanel>
+                    <RadioButton x:Name="rdbCrear" IsChecked="True" FontSize="20" Margin="0,0,0,10">Crear una partida</RadioButton>
+                    <RadioButton x:Name="rdbUnirse" FontSize="20" Margin="0,0,0,10">Unirse a una partida ya existente</RadioButton>
+                    <WrapPanel  Name="ipAdversario">
+                        <WrapPanel.Style>
+                            <Style>
+                                <Setter Property="WrapPanel.Visibility" Value="Collapsed"></Setter>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding ElementName=rdbUnirse, Path=IsChecked}" Value="True">
+                                        <Setter Property="WrapPanel.Visibility" Value="Visible"></Setter>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </WrapPanel.Style>
+                        <TextBlock>IP del adversario:</TextBlock>
+                        <TextBox Text="{Binding IP}" Margin="10, 0, 0,0" Width="300" Name="txtIp"></TextBox>
+                    </WrapPanel>
+                </StackPanel>
+            </GroupBox>
+        </Border>
+        <Button Command="{Binding IniciarCommand}" CommandParameter="{Binding ElementName=rdbCrear, Path=IsChecked}" Name="btnIniciar"  FontSize="20" Width="100" Height="50" Margin="0,20,0,0" Content="Iniciar">
+            <Button.Style>
+                <Style TargetType="Button">
+                    <Setter Property="IsEnabled" Value="False"></Setter>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding ElementName=rdbCrear, Path=IsChecked}" Value="True">
+                            <Setter Property="IsEnabled" Value="True"></Setter>
+                        </DataTrigger>
+
+
+
+                        <DataTrigger Binding="{Binding ElementName=rdbUnirse, Path=IsChecked}" Value="True">
+                            <Setter Property="IsEnabled" Value="True"></Setter>
+                        </DataTrigger>
+
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition  Binding="{Binding ElementName=rdbUnirse, Path=IsChecked}" Value="True"></Condition>
+                                <Condition  Binding="{Binding ElementName=txtIp, Path=Text}" Value=""></Condition>
+                            </MultiDataTrigger.Conditions>
+                            <Setter Property="IsEnabled" Value="False"></Setter>
+                        </MultiDataTrigger>
+
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
+        </Button>
+    </StackPanel>
+</Window>

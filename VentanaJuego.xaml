@@ -1,0 +1,115 @@
+﻿<Window x:Class="Conecta4.VentanaJuego"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Conecta4"
+        mc:Ignorable="d"
+        Title="VentanaJuego" Height="625" Width="800">
+    <DockPanel>
+        <DockPanel.Background>
+            <ImageBrush ImageSource="/Imagenes/stripes-background.jpg"></ImageBrush>
+        </DockPanel.Background>
+        <WrapPanel HorizontalAlignment="Center" DockPanel.Dock="Bottom" >
+            <WrapPanel.Resources>
+                <Style TargetType="Button">
+                    <Setter Property="Width" Value="45"></Setter>
+                    <Setter Property="Height" Value="45"></Setter>
+                    <Setter Property="Background" Value="Transparent"></Setter>
+                    <Setter Property="FontSize" Value="24"></Setter>
+                    <Setter Property="BorderThickness" Value="0"></Setter>
+                    <Setter Property="IsEnabled" Value="{Binding PuedeJugar}"></Setter>
+                    <Setter Property="Margin" Value="10"></Setter>
+                    <Setter Property="Padding" Value="10"></Setter>
+                </Style>
+                <Style TargetType="Border">
+                    <Setter Property="Background" Value="Red"></Setter>
+                    <Setter Property="BorderBrush" Value="DarkRed"></Setter>
+                    <Setter Property="BorderThickness" Value="8"></Setter>
+                    <Setter Property="CornerRadius" Value="90"></Setter>
+                    <Setter Property="Margin" Value="5"></Setter>
+                </Style>
+            </WrapPanel.Resources>
+            <Border>
+                <Button Command="{Binding JugarCommand}" CommandParameter="COL1" Content="1" ></Button>
+            </Border>
+            <Border>
+                <Button Command="{Binding JugarCommand}" CommandParameter="COL2" Content="2"></Button>
+            </Border>
+            <Border>
+                <Button Command="{Binding JugarCommand}" CommandParameter="COL3" Content="3"></Button>
+            </Border>
+            <Border>
+                <Button Command="{Binding JugarCommand}" CommandParameter="COL4" Content="4"></Button>
+            </Border>
+            <Border>
+                <Button Command="{Binding JugarCommand}" CommandParameter="COL5" Content="5" ></Button>
+            </Border>
+            <Border>
+                <Button Command="{Binding JugarCommand}" CommandParameter="COL6" Content="6"></Button>
+            </Border>
+            <Border>
+                <Button Command="{Binding JugarCommand}" CommandParameter="COL7" Content="7"></Button>
+            </Border>
+        </WrapPanel>
+        <TextBlock DockPanel.Dock="Bottom" FontSize="20" FontStyle="Italic" HorizontalAlignment="Center" Text="{Binding Mensaje}"></TextBlock>
+        <Border DockPanel.Dock="Top" Background="LightGray" Margin="15 15 15 0" CornerRadius="15">
+            <UniformGrid Columns="2" >
+                <WrapPanel>
+                    <Ellipse HorizontalAlignment="Left" Stroke="Black" Margin="10 0 0 0" Width="25" Height="25" Fill="Yellow"></Ellipse>
+                    <TextBlock HorizontalAlignment="Left" FontStyle="Italic" FontSize="25" Margin="10 0 0 0" Text="{Binding Jugador1}"></TextBlock>
+                </WrapPanel>
+                <WrapPanel HorizontalAlignment="Right">
+                    <TextBlock HorizontalAlignment="Right" FontStyle="Italic" FontSize="25" Margin="0 0 10 0" Text="{Binding Jugador2}"></TextBlock>
+                    <Ellipse HorizontalAlignment="Right" Stroke="Black" Margin="0 0 10 0" Width="25" Height="25" Fill="Red"></Ellipse>
+                </WrapPanel>
+            </UniformGrid>
+        </Border>
+        <Border Background="#FF0101AC" CornerRadius="25" Margin="15">
+        <ItemsControl Name="ItmFichas"  ItemsSource="{Binding ListaFichas}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Border>
+                        <Ellipse Stroke="Black" Width="50" Height="50">
+                            <Ellipse.Style>
+                                <Style TargetType="Ellipse">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Color}" Value="-1">
+                                            <Setter Property="Fill" Value="White" />
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding Color}" Value="0">
+                                            <Setter Property="Fill">
+                                                <Setter.Value>
+                                                    <RadialGradientBrush>
+                                                        <GradientStop Color="#FFDBFD00" Offset="0"/>
+                                                        <GradientStop Color="#FFAEC900" Offset="1.0"/>
+                                                    </RadialGradientBrush>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding Color}" Value="1">
+                                            <Setter Property="Fill">
+                                                <Setter.Value>
+                                                    <RadialGradientBrush>
+                                                        <GradientStop Color="#FFFD0000" Offset="0"/>
+                                                        <GradientStop Color="#FFC70707" Offset="1.0"/>
+                                                    </RadialGradientBrush>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Ellipse.Style>
+                        </Ellipse>
+                    </Border>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <UniformGrid IsItemsHost="True" Columns="{Binding Columnas}" />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+        </ItemsControl>
+        </Border>
+    </DockPanel>
+</Window>
